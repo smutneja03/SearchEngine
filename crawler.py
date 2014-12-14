@@ -82,7 +82,7 @@ def crawl_web(seed):
 	#procedure to crawl the whole of web
 	tocrawl = [seed]#starts with the page entered by the user
 	crawled = []#will list all the pages that are crawled
-	index = []#will contain the word to url mapping
+	index = {}#will contain the word to url mapping
 	while tocrawl:
 		link = tocrawl.pop()
 		#page stores the link of the last popped out item from the tocrawl list
@@ -99,12 +99,6 @@ def crawl_web(seed):
 
 seed = "http://www.iitmandi.ac.in/institute/faculty.html"
 index = crawl_web(seed)
-"""
-for i in index:
-	print i[0]
-	print i[1]
-	print '\n'
-"""
 print len(index)
 
 while 1:
