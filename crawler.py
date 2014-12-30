@@ -40,12 +40,14 @@ def crawl_web(seed):
 
 		url = tocrawl.pop(0)
 
+		indexing.add_page_to_index(index, url, html_text)
+
 		for tag in soup.findAll('a', href=True):
 			tag['href'] = urlparse.urljoin(url, tag['href'])
 			if "faculty" in tag['href'] and tag['href'] not in crawled and is_valid_link(tag['href']):
 				tocrawl.append(tag['href'])
 				crawled.append(tag['href'])
-				indexing.add_page_to_index(index, tag['href'], html_text)
+				
 
 	return index
 
@@ -57,7 +59,8 @@ print str(len(index)) + " is the length of the index formed"
 
 while 1:
 
-	string = raw_input("Enter your query")
+	string = raw_input("Enter your query\n")
+	string = string.lower()
 	links_query = indexing.lookup(index, string)
 	print '\n'
 	print "Links with the keyword " + string
