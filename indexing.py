@@ -23,7 +23,8 @@ def lookup(index, keyword):
 	for string in index:
 		if keyword in string:
 			for link in index[string]:
-				links.append(link)
+				if link not in links:
+					links.append(link)
 
 	return links
 
