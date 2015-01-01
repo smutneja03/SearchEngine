@@ -6,6 +6,8 @@ import httplib
 from bs4 import BeautifulSoup
 
 def is_valid_link(link):
+	#checks if the link is valid by first checking the format of the url
+	#if format is valid sends a request to the server for a positive response
 
 	if ("http://" not in link and "https://" not in link) or " " in link:
 		return False
@@ -31,24 +33,28 @@ def crawl_web(seed):
 	while tocrawl:
 		try:
 			html_text = urllib2.urlopen(tocrawl[0]).read()
+			#stores the html content of the document in unstructured format
 		except urllib2.HTTPError, e:
 			html_text = e.read()
 		except urllib2.URLError, e:
 			html_text = e.read()
 
 		soup = BeautifulSoup(html_text)
+		#converts the html into object, which represents document as nested data structure
 
 		url = tocrawl.pop(0)
 
 		indexing.add_page_to_index(index, url, html_text)
+		#each of the page popped out of the queue is added to the indexer
+		crawled.append(url)
+		#once the url is added to the indexer, its added in the crawled list
 
 		for tag in soup.findAll('a', href=True):
+			#finds all the anchor tags and processes them one by one
 			tag['href'] = urlparse.urljoin(url, tag['href'])
 			if "faculty" in tag['href'] and tag['href'] not in crawled and is_valid_link(tag['href']):
 				tocrawl.append(tag['href'])
-				crawled.append(tag['href'])
 				
-
 	return index
 
 seed = "http://www.iitmandi.ac.in/institute/faculty.html"
@@ -69,8 +75,3 @@ while 1:
 		print i
 
 	print '\n'
-
-
-
-
-
