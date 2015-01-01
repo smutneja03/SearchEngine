@@ -65,7 +65,7 @@ print str(len(index)) + " is the length of the index formed"
 
 while 1:
 
-	string = raw_input("Enter your query\n")
+	string = raw_input("Enter your specialization query\n")
 	string = string.lower()
 	links_query = indexing.lookup(index, string)
 	print '\n'

@@ -20,11 +20,13 @@ def strip_tags(html):
 def lookup(index, keyword):
 
 	links = []
+	words = keyword.split()
 	for string in index:
-		if keyword in string:
-			for link in index[string]:
-				if link not in links:
-					links.append(link)
+		for word in words:
+			if word in string:
+				for link in index[string]:
+					if link not in links:
+						links.append(link)
 
 	return links
 
