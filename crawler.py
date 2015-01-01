@@ -2,6 +2,7 @@
 import urlparse
 import urllib2
 import indexing
+import ranking
 import httplib
 from bs4 import BeautifulSoup
 
@@ -29,6 +30,7 @@ def crawl_web(seed):
 	tocrawl = [seed]
 	crawled = []
 	index = {}
+	graph = {}
 
 	while tocrawl:
 		try:
@@ -48,26 +50,32 @@ def crawl_web(seed):
 		#each of the page popped out of the queue is added to the indexer
 		crawled.append(url)
 		#once the url is added to the indexer, its added in the crawled list
-
+		outlinks = []
 		for tag in soup.findAll('a', href=True):
 			#finds all the anchor tags and processes them one by one
 			tag['href'] = urlparse.urljoin(url, tag['href'])
+			#decomposes the relative path into the absolute one
+			if tag['href'] not in outlinks:
+				outlinks.append(tag['href'])
+			#building the list of outlinks from a given link
 			if "faculty" in tag['href'] and tag['href'] not in crawled and is_valid_link(tag['href']):
 				tocrawl.append(tag['href'])
+		
+		#adding a mapping of the url to all of its outlink to the graph
+		graph[url] = outlinks
 				
-	return index
+	return index, graph
 
 seed = "http://www.iitmandi.ac.in/institute/faculty.html"
 
-index = crawl_web(seed)
-
-print str(len(index)) + " is the length of the index formed"
+index, graph = crawl_web(seed)
+ranks = ranking.compute_ranks(graph)#function call to get the ranks dictioanary
 
 while 1:
 
 	string = raw_input("Enter your specialization query\n")
 	string = string.lower()
-	links_query = indexing.lookup(index, string)
+	links_query = indexing.lookup(index, string, ranks)
 	print '\n'
 	print "Links with the keyword " + string
 	
