@@ -12,7 +12,9 @@ def is_valid_link(link):
 
 	if ("http://" not in link and "https://" not in link) or " " in link:
 		return False
-
+	if "doc" in link or "pdf" in link:
+		return False
+		
 	try:
 		check = urllib2.urlopen(link)
 	except urllib2.URLError as e:
