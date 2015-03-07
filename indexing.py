@@ -1,38 +1,40 @@
 
+import urlparse
+import urllib2
+import indexing
+import ranking
+import httplib
+from bs4 import BeautifulSoup
 import re
 import operator
+import time
 
 from HTMLParser import HTMLParser
 
-class MLStripper(HTMLParser):
-	def __init__(self):
-		self.reset()
-		self.fed = []
-	def handle_data(self, d):
-		self.fed.append(d)
-	def get_data(self):
-		return ''.join(self.fed)
+def get_union(links, temp):
+	if(temp==[]):
+		return links
 
-def strip_tags(html):
-	s = MLStripper()
-	s.feed(html)
-	return s.get_data()
+	for link in temp:
+		if link not in links:
+			links.append(link)
+	return links
 
 def lookup(index, keyword, rank):
 
 	links = []
 	rank_links = {}
-	words = keyword.split()
-	for string in index:
-		#going through all the keys in the dict
-		for word in words:
-			#splitting the query into words
-			if word in string:
-				#checking whether the query exists in the key
-				#if exists its added to the links if not present
-				for link in index[string]:
-					if link not in links:
-						links.append(link)
+	words = re.split(r'[ ,:\r\n]+', keyword)
+	for word in words:
+		if word in index:
+			temp = index[word]
+		else:
+			temp = []
+
+		links = get_union(links, temp)
+
+	if links==[]:
+		return links #if there is nothing in the links
 
 	#here we have the links sorted in an random order
 	#need to sort the links on the basis of the ranks we have
@@ -55,16 +57,17 @@ def add_to_index(index, word, url):
 	
 	if word in index and url not in index[word]:
 		index[word].append(url)
-	else:
+	if word not in index:
 		index[word] = [url]
 
 
 def add_page_to_index(index, url, content):
 
-	content = strip_tags(content)
-	words = content.split(' ')
+	content = ''.join(content.findAll(text=True))
+	words = re.split(r'[ ,:.\r\n]+', content)#split on the basis of new line and space
+	
 	for word in words:
 		word = word.lower()
 		add_to_index(index, word, url)
-
+		
 
