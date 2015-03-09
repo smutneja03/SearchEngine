@@ -9,30 +9,32 @@ from bs4 import BeautifulSoup
 def is_valid_link(link):
 	#checks if the link is valid by first checking the format of the url
 	#if format is valid sends a request to the server for a positive response
-
-	if ("http://" not in link and "https://" not in link) or " " in link:
+	extras = ["doc", "pdf", " ", "?", "=", "https", "JPG", "#", "family", "Participation", "-"]
+	for i in extras:
+		if i in link:
+			return False
+	if "http://" not in link and "iitmandi" not in link and "www.iitr" not in link:
 		return False
-	if "doc" in link or "pdf" in link:
+	if "faculty" not in link and "Faculty" not in link:
 		return False
-		
 	try:
 		check = urllib2.urlopen(link)
 	except urllib2.URLError as e:
 		check = e
-
+	
 	if check.code in (200, 401):
 		return True
 	else:
 		return False
 
 
+index = {}
+graph = {}
 
 def crawl_web(seed):
 
 	tocrawl = [seed]
 	crawled = []
-	index = {}
-	graph = {}
 
 	while tocrawl:
 		try:
@@ -45,33 +47,51 @@ def crawl_web(seed):
 
 		soup = BeautifulSoup(html_text)
 		#converts the html into object, which represents document as nested data structure
-
 		url = tocrawl.pop(0)
-		
+		#print url
 		indexing.add_page_to_index(index, url, soup) #each of the page popped out of the queue is added to the indexer
-		crawled.append(url) #once the url is added to the indexer, its added in the crawled list
-		
+
 		outlinks = []
-		for tag in soup.findAll('a', href=True): #finds all the anchor tags and processes them one by one
-			
+		anchor_tags = soup.findAll('a', href=True)#finds all the anchor tags and processes them one by one
+		for tag in anchor_tags: 
 			tag['href'] = urlparse.urljoin(url, tag['href']) #decomposes the relative path into the absolute one
-			
 			if tag['href'] not in outlinks:
 				outlinks.append(tag['href']) #building the list of outlinks from a given link
-			
-			if tag['href'] not in crawled and is_valid_link(tag['href']):
-				if "faculty" in tag['href']:
+			if tag['href'] not in crawled and tag['href'] not in tocrawl and is_valid_link(tag['href']):
+				
+				crawled.append(tag['href'])
+				if "faculty" in tag['href'] and "iitmandi" in tag['href']:
 					#IIT MANDI faculty	
 					tocrawl.append(tag['href'])
-		
+					print tag['href']
+				elif "departments" in tag['href'] and "iitr" in tag['href'] and "Faculty" in tag['href']:
+					#IIT ROORKEE faculty	
+					tocrawl.append(tag['href'])
+					print tag['href']
+					
 		#adding a mapping of the url to all of its outlink to the graph
 		graph[url] = outlinks
 				
 	return index, graph
 
-seed = "http://www.iitmandi.ac.in/institute/faculty.html"
+seed = ["http://www.iitmandi.ac.in/institute/faculty.html", 
+			"http://www.iitr.ac.in/departments/ASE/pages/Index.html",
+			"http://www.iitr.ac.in/departments/BT/pages/index.html",
+			"http://www.iitr.ac.in/departments/CH/pages/index.html",
+			"http://www.iitr.ac.in/departments/CY/pages/index.html",
+			"http://www.iitr.ac.in/departments/CE/pages/index.html",
+			"http://www.iitr.ac.in/departments/CSE/pages/index.html",
+			"http://www.iitr.ac.in/departments/EE/pages/index.html",
+			"http://www.iitr.ac.in/departments/ECE/pages/Home.html",
+			"http://www.iitr.ac.in/departments/HS/pages/About_the_Department___.html",
+			"http://www.iitr.ac.in/departments/MA/pages/index.html",
+			"http://www.iitr.ac.in/departments/ME/pages/index.html",
+			"http://www.iitr.ac.in/departments/MT/pages/index.html",
+			"http://www.iitr.ac.in/departments/PH/pages/index.html",
+			]
 
-index, graph = crawl_web(seed)
+for i in seed:
+	index, graph = crawl_web(i)
 ranks = ranking.compute_ranks(graph)#function call to get the ranks dictioanary
 
 while 1:
