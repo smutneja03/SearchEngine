@@ -5,6 +5,7 @@ import indexing
 import ranking
 import httplib
 from bs4 import BeautifulSoup
+import pickle
 
 def is_valid_link(link):
 	#checks if the link is valid by first checking the format of the url
@@ -94,6 +95,15 @@ for i in seed:
 	index, graph = crawl_web(i)
 ranks = ranking.compute_ranks(graph)#function call to get the ranks dictioanary
 
+output = open('index.pkl', 'wb')
+pickle.dump(index, output)
+output.close()
+
+output = open('ranks.pkl', 'wb')
+pickle.dump(ranks, output)
+output.close()
+
+"""
 while 1:
 
 	string = raw_input("Enter your specialization query\n")
@@ -109,3 +119,4 @@ while 1:
 			print i
 
 	print '\n'
+"""

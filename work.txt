@@ -1,0 +1,31 @@
+Talk about the last presentation to be held
+before the examination
+
+algorithms used for indexer and lookup, existing ones
+literature used in the lookup mechanism , dictionary implementation
+our implementations vs already existing ones
+
+in the presentation show the working of page rank
+include two old iits
+optimization of parser
+gui ready till that point
+relevance feedback, let many user search it and then based on relevancy, quantify the results, modify the output
+
+
+20-30 pages for the final report
+
+#done work from Monday 3March2015
+-->changed the content from html to document
+-->rather than a line to be mapper, its a word now, dictionary for insert as well for insert
+-->dictionary now performs in O(1) lookup
+-->invalid search inputs also taken care of
+-->Survey regarding the search engine
+People are using Solr and Nutch for large scale implementation. Open source apache projects. Solr is a search platform and Nutch as an indexing platform.
+-->Added IIT Roorkee to the institutes
+-->read google paper, regarding the working
+
+-->added front end for python program
+
+//check 
+--->mechanism of data structure 
+--->size of the file and the number of entries
