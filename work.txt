@@ -29,3 +29,7 @@ People are using Solr and Nutch for large scale implementation. Open source apac
 //check 
 --->mechanism of data structure 
 --->size of the file and the number of entries
+
+--->Papers that deals with ranking of web pages and implement that 
+--->Separate faculty anbd departtment pages
+--->Rankin based on the occurence of the wrords and string as such

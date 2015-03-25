@@ -102,21 +102,3 @@ output.close()
 output = open('ranks.pkl', 'wb')
 pickle.dump(ranks, output)
 output.close()
-
-"""
-while 1:
-
-	string = raw_input("Enter your specialization query\n")
-	string = string.lower()
-	links_query = indexing.lookup(index, string, ranks)
-	print '\n'
-	print "Links with the keyword " + string
-	
-	if links_query==[]:
-		print "There are no results to be displayed"
-	else:
-		for i in links_query:
-			print i
-
-	print '\n'
-"""

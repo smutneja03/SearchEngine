@@ -11,15 +11,21 @@ import time
 
 from HTMLParser import HTMLParser
 
-def get_union(links, temp):
-	if(temp==[]):
+def get_intersection(links, temp):
+	solution = []
+	if links == []:
+		return temp#this is for the base case
+		#for the first word this will run
+	elif temp == []:
 		return links
-
-	for link in temp:
-		if link not in links:
-			links.append(link)
-	return links
-
+	else:
+		for link in temp:
+			if link in links and link not in solution:
+				#nned to find the intersection with the 
+				#already existing links we have 
+				solution.append(link)
+		return solution
+	
 def lookup(index, keyword, rank):
 
 	links = []
@@ -31,11 +37,12 @@ def lookup(index, keyword, rank):
 		else:
 			temp = []
 
-		links = get_union(links, temp)
+		links = get_intersection(links, temp)
 
 	if links==[]:
 		return links #if there is nothing in the links
 
+	
 	#here we have the links sorted in an random order
 	#need to sort the links on the basis of the ranks we have
 	for link in links:
@@ -44,6 +51,7 @@ def lookup(index, keyword, rank):
 			rank_links[link] = rank[link]
 		else:
 			rank_links[link] = 0
+	
 
 	#need to sort the dictionary on the basis of values
 	sorted_ranks = sorted(rank_links.items(), key=operator.itemgetter(1))
