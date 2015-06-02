@@ -33,3 +33,100 @@ People are using Solr and Nutch for large scale implementation. Open source apac
 --->Papers that deals with ranking of web pages and implement that 
 --->Separate faculty anbd departtment pages
 --->Rankin based on the occurence of the wrords and string as such
+
+
+Discussion and work to be done
+
+20th April 2015
+
+-->Python Dictionary implementation, hash tables
+http://stackoverflow.com/questions/327311/how-are-pythons-built-in-dictionaries-implemented
+http://perlmaven.com/perl-cgi-script-with-apache2
+-->Data Structures vs present lookup operation
+-->Ranking Technique, Removed the page rank algorithm
+Ranking technique checks for the presence of all words in the string in the url
+Will count the occurences and rank them on the basis of frequency
+
+Work to be done
+-->For a given query, around 5 will show the results for related specializations
+for eg. pattern recognition shows for machine learning and so on
+
+
+-->add recommendations, hard code some of the terms in the system and give back the results in 
+single line
+Do u also want to look at ...,....,....
+-->Measure to check the number of relevant links to the amount crawled
+Quantitative measure
+-->Add one more institute, Correction and check whethere the resukts are accurate, for a given number of specializations, check for precision of the results displayed. 
+
+
+---------------------------------------
+---------------------------------------
+
+
+Things to discuss in next meeting ::
+
+-->demonstrate the work done till now, the new GUI interface with changes
+
+-->algorithm/ranking mechanism discussion
+
+-->discussion on how to get the correction of the results obtained
+
+-->point about addition of new institutes
+
+-->whether to host the search engine on server or not
+
+-->things to include in the report making
+
+-->what all to say in the final presentation, splitting up 30 minutes presentation
+
+
+Things to include
+-->Hashing vs the btree implementation in the seach engine
+-->Give some gap between the two divs for lookup purpose
+-->Change appearance by adding page number to the faculty web pages, 1 2 3 
+-->Survey kind of thing where user rates the results obtained 
+Specification they are looking at, Feedback, Rating they give
+-->Results accuracy check with manual observation
+-->Time vs lookup time analysis for a single node, researched till now and list is linear whereas dict is constant, will do the same for our indexer and show the same in graph
+
+-->anchoring and semantics based search engine, bring into picture
+-->add more institutes, 1 more for results
+-->Old IITs to be included
+
+for the project will try to include 6 to 7 iits with faculty members and for the rest their department pages.
+
+Semantic search systems consider various points including context of search, location, intent, variation of words, synonyms, generalized and specialized queries, concept matching and natural language queries to provide relevant search results.
+ 
+
+http://en.wikipedia.org/wiki/Inverted_index
+http://stackoverflow.com/questions/1963507/time-complexity-of-accessing-a-python-dict
+http://perlmaven.com/perl-cgi-script-with-apache2
+http://miro.luciacabanova.com/?p=143
+
+On analysis of web pages of various institutes ::
+-->no well defined pattern for faculty web pages
+-->faculty names will be there with the interest area only. Also includes course details and their works in the form of long pdf's which becomes out of the scope of the project as we are dealing only with the names of the faculty and not their work. can act as an extension to the project.  
+
+
+Limited number of institutes will be crawled ::
+1. All the faculty members are not having their web pages so its of no use to give the department page if a query is entered
+the way they are having the web page is like on a single page every information is there
+2. Some of the institutes are having a single page where they are listing everything
+3. for a given institute searching on google, gives results not of professors but some publications of the institute with the specialization in it
+4. As we are dealing with only the faculty members and their departments we are not crawling the docs and pdfs they have uploaded, as it may be full of keywords that increase the ranks of the page we are considering
+
+The project is limited to find the web pages of related faculty and not their works that are significant. Extension of the work is to crawl everything of the related network and store everything and then expand from there
+
+
+
+--->corelate with the existing google and bing
+--->analyse order for search engines, the way it is presented , get the ground truth 
+
+
+
+
+
+
+
+

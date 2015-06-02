@@ -22,12 +22,8 @@ else:
 pkl_file = open('index.pkl', 'rb')
 index = pickle.load(pkl_file)
 pkl_file.close()
-pkl_file = open('ranks.pkl', 'rb')
-ranks = pickle.load(pkl_file)
-pkl_file.close()
 
-links_query = indexing.lookup(index, searched_query, ranks)
-
+links_query = indexing.lookup(index, searched_query)
 links_faculty = []
 links_departments = []
 
@@ -47,26 +43,26 @@ print "Enter the query you want to search :<br/> <input type='text' name='query'
 print "<input type='submit' value='Submit' />"
 print "</form>"
 
-if links_query==[]:
+if links_query=={}:
 	print "<h3>There are no results to be displayed</p>"
 else:
-	#printing the webpages for departments
-	print "<h2>Department Web Pages</h2>"
+	#printing the webpages for faculty
+	print "<h2>Faculty Web Pages</h2>"
 	print "<ul>"
 	count = 0
-	for i in links_departments:
+	for i in links_faculty:
 		print "<li>"
 		print "<h4><a href=%s target='_blank'>%s</a></h4>" % (i, i)
 		print "</li>"
 		count+=1
 	print "</ul"
 	print "<h3>A total of %d results displayed</h3>" % count
-
-	#printing the webpages for faculty
-	print "<h2>Faculty Web Pages</h2>"
+	
+	#printing the webpages for departments
+	print "<h2>Department Web Pages</h2>"
 	print "<ul>"
 	count = 0
-	for i in links_faculty:
+	for i in links_departments:
 		print "<li>"
 		print "<h4><a href=%s target='_blank'>%s</a></h4>" % (i, i)
 		print "</li>"
